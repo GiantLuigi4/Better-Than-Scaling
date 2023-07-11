@@ -1,0 +1,20 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "tfc.better_than_scaling.mixin",
+    "compatibilityLevel": "JAVA_8",
+    "mixins": [
+        "entity.EntityMixin",
+        "entity.LivingEntityMixin",
+        "entity.player.PlayerEntityMixin"
+    ],
+    "client": [
+        "client.EntityPlayerSPMixin",
+        "client.render.EntityRendererMixin",
+        "client.render.RenderManagerMixin",
+        "client.render.RenderLivingMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+  }
+}

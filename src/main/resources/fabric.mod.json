@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
+  "id": "better_than_scaling",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This mod aims to help new BTA modders.",
+  "name": "Better Than Scaling",
+  "description": "An entity scaling mod for BTA.",
   "authors": [
-    "Turnip Labs"
+    "GiantLuigi4"
   ],
   "contact": {
     "homepage": "",
@@ -18,11 +18,11 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-        "turniplabs.examplemod.ExampleMod"
+      "tfc.better_than_scaling.BetterThanScaling"
     ]
   },
   "mixins": [
-      "examplemod.mixins.json"
+    "better_than_scaling.json"
   ],
 
   "depends": {
