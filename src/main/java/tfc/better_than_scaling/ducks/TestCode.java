@@ -41,7 +41,9 @@ public class TestCode {
 //        return position;
 //    }
 
-    public static void scaleBounds(Entity instance, double x, double y, double z) {
+    public static void scaleBounds(Object the, double x, double y, double z) {
+        Entity instance = (Entity) (Object) the;
+
         float scaleX = (float) ScaleTypes.WIDTH.calculate((Entity) (Object) instance);
         float scaleY = (float) ScaleTypes.HEIGHT.calculate((Entity) (Object) instance);
 

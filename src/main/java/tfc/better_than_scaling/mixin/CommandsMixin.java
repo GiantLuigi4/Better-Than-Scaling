@@ -11,8 +11,6 @@ import tfc.better_than_scaling.cmd.ScaleCommand;
 public class CommandsMixin {
     @Inject(at = @At("TAIL"), method = "initCommands")
     private static void postInitCommands(CallbackInfo ci) {
-        Commands.commands.add(new ScaleCommand(
-                "scale"
-        ));
+        Commands.commands.add(new ScaleCommand("scale"));
     }
 }

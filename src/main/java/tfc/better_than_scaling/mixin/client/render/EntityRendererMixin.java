@@ -2,6 +2,7 @@ package tfc.better_than_scaling.mixin.client.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.client.render.camera.EntityCameraThirdPerson;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,11 +23,11 @@ public class EntityRendererMixin {
 //        return TestCode.scaleCamera(instance);
 //    }
 
-    @ModifyConstant(method = "orientCamera", constant = @Constant(floatValue = -0.1f))
-    public float pre01f(float constant) {
-        float scl = (float) ScaleTypes.EYES.calculate(mc.thePlayer);
-        return constant * scl;
-    }
+//    @ModifyConstant(method = "orientCamera", constant = @Constant(floatValue = -0.1f))
+//    public float pre01f(float constant) {
+//        float scl = (float) ScaleTypes.EYES.calculate(mc.thePlayer);
+//        return constant * scl;
+//    }
 
     @Redirect(method = "setupViewBobbing", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glTranslatef(FFF)V"))
     public void preTranslate(float x, float y, float z) {

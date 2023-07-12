@@ -36,18 +36,6 @@ public abstract class EntityMixin implements EntityExtensions {
         return scaleData;
     }
 
-    @Shadow @Final public AABB boundingBox;
-
-    @Shadow public float height;
-
-    @Shadow public abstract void setPosition(double x, double y, double z);
-
-    @Shadow public double posX;
-
-    @Shadow public double posY;
-
-    @Shadow public double posZ;
-
     // hitbox scaling
     @Inject(at = @At("TAIL"), method = "setPos")
     public void postSetPos(double x, double y, double z, CallbackInfo ci) {

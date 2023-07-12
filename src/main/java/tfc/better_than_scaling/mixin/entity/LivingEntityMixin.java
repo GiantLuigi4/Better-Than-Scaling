@@ -14,15 +14,6 @@ import tfc.better_than_scaling.ducks.TestCode;
 
 @Mixin(value = EntityLiving.class, remap = false)
 public abstract class LivingEntityMixin {
-    @Shadow
-    public abstract Vec3d getPosition(float f);
-
-    @Shadow
-    public abstract Vec3d getLook(float f);
-
-    @Shadow
-    public abstract float getEyeHeight();
-
     @Shadow protected int entityAge;
 
     @ModifyVariable(method = "rayTrace", at = @At("HEAD"), ordinal = 0, argsOnly = true)
