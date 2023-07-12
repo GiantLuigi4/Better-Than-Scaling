@@ -1,9 +1,6 @@
 package tfc.better_than_scaling.mixin.entity;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.MovingObjectPosition;
-import net.minecraft.src.Vec3D;
+import net.minecraft.src.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,11 +22,6 @@ public abstract class LivingEntityMixin {
     public abstract float getEyeHeight();
 
     @Shadow protected int entityAge;
-
-    @Inject(at = @At("RETURN"), method = "getEyeHeight", cancellable = true)
-    public void postGetEyeHeight(CallbackInfoReturnable<Float> cir) {
-        cir.setReturnValue(cir.getReturnValueF() * (float) ScaleTypes.EYES.calculate((Entity) (Object) this));
-    }
 
     @ModifyVariable(method = "rayTrace", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     public double scaleReach(double src) {

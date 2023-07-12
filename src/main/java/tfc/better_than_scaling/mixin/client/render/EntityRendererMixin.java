@@ -38,6 +38,24 @@ public class EntityRendererMixin {
         GL11.glTranslatef(x * scl, y * scl, z * scl);
     }
 
+    @Redirect(method = "setupViewBobbing", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glRotatef(FFFF)V", ordinal = 0))
+    public void preRotate0(float angle, float x, float y, float z) {
+        float scl = (float) ScaleTypes.VIEW.calculate(mc.renderViewEntity);
+        GL11.glRotatef(angle * scl, x, y, z);
+    }
+
+    @Redirect(method = "setupViewBobbing", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glRotatef(FFFF)V", ordinal = 1))
+    public void preRotate1(float angle, float x, float y, float z) {
+        float scl = (float) ScaleTypes.VIEW.calculate(mc.renderViewEntity);
+        GL11.glRotatef(angle * scl, x, y, z);
+    }
+
+    @Redirect(method = "setupViewBobbing", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glRotatef(FFFF)V", ordinal = 2))
+    public void preRotate2(float angle, float x, float y, float z) {
+        float scl = (float) ScaleTypes.VIEW.calculate(mc.renderViewEntity);
+        GL11.glRotatef(angle * (float) Math.pow(scl, 0.95), x, y, z);
+    }
+
     @Redirect(at = @At(value = "FIELD", target = "Lnet/minecraft/src/EntityRenderer;field_22227_s:F"), method = "orientCamera")
     public float getDist(EntityRenderer renderer) {
         float scl = (float) ScaleTypes.THIRD_PERSON.calculate(mc.renderViewEntity);

@@ -2,6 +2,7 @@ package tfc.better_than_scaling.mixin.entity;
 
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Entity;
+import net.minecraft.src.EntityTrackerEntry;
 import net.minecraft.src.NBTTagCompound;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,6 +18,18 @@ import tfc.better_than_scaling.ducks.TestCode;
 @Mixin(value = Entity.class, remap = false)
 public abstract class EntityMixin implements EntityExtensions {
     ScaleData scaleData = new ScaleData();
+
+    EntityTrackerEntry entityTrackerEntry;
+
+    @Override
+    public void setTracker(EntityTrackerEntry lookup) {
+        this.entityTrackerEntry = lookup;
+    }
+
+    @Override
+    public EntityTrackerEntry getTracker() {
+        return entityTrackerEntry;
+    }
 
     @Override
     public ScaleData getScaleData() {
@@ -84,6 +97,11 @@ public abstract class EntityMixin implements EntityExtensions {
     @Redirect(method = "moveEntity", at = @At(value = "FIELD", target = "Lnet/minecraft/src/Entity;yOffset:F"))
     public float calcYOffset1(Entity instance) {
         return instance.yOffset * (float) ScaleTypes.EYES.calculate((Entity) (Object) this);
+    }
+
+    @Redirect(method = "moveEntity", at = @At(value = "FIELD", target = "Lnet/minecraft/src/Entity;stepHeight:F"))
+    public float calcStepHeight(Entity instance) {
+        return instance.stepHeight * (float) ScaleTypes.STEP.calculate((Entity) (Object) this);
     }
 
     @Redirect(method = "getEntityBrightness", at = @At(value = "FIELD", target = "Lnet/minecraft/src/Entity;yOffset:F"))

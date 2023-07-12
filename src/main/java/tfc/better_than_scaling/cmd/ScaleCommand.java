@@ -1,6 +1,7 @@
 package tfc.better_than_scaling.cmd;
 
 import net.minecraft.src.Entity;
+import net.minecraft.src.command.ChatColor;
 import net.minecraft.src.command.Command;
 import net.minecraft.src.command.CommandHandler;
 import net.minecraft.src.command.CommandSender;
@@ -29,6 +30,26 @@ public class ScaleCommand extends Command {
         final double[] scale = {1};
 
         RootArg rootArg = new RootArg();
+
+        if (args.length == 0) {
+            commandHandler.sendCommandFeedback(commandSender, "Syntax:");
+
+            commandHandler.sendCommandFeedback(commandSender, ChatColor.lightGray + "/scale [number]");
+            commandHandler.sendCommandFeedback(commandSender, ChatColor.lightGray + "/scale set [number]");
+            commandHandler.sendCommandFeedback(commandSender, "Sets your base scale");
+
+            commandHandler.sendCommandFeedback(commandSender, ChatColor.lightGray + "/scale [type] [number]");
+            commandHandler.sendCommandFeedback(commandSender, ChatColor.lightGray + "/scale set [type] [number]");
+            commandHandler.sendCommandFeedback(commandSender, "Sets your scale factor for a scale type");
+
+            commandHandler.sendCommandFeedback(commandSender, ChatColor.lightGray + "/scale get");
+            commandHandler.sendCommandFeedback(commandSender, "Gets your base scale");
+
+            commandHandler.sendCommandFeedback(commandSender, ChatColor.lightGray + "/scale get");
+            commandHandler.sendCommandFeedback(commandSender, "Gets your scale factor for a scale type");
+
+            return true;
+        }
 
         NumericArgument scaleArgument = new NumericArgument(
                 (v) -> scale[0] = Double.parseDouble(v),
@@ -60,13 +81,13 @@ public class ScaleCommand extends Command {
                 new StringChoiceArg(
                         (a) -> action[0] = a,
                         "set"
-                ).then(scaleArgument).then(typeArg)
+                ).then(typeArg).then(scaleArgument)
         ).then(
                 new StringChoiceArg(
                         (a) -> action[0] = a,
                         "get"
                 )
-        );
+        ).then(typeArg).then(scaleArgument);
 
         // parse command
         rootArg.next(args, 0);
@@ -78,15 +99,23 @@ public class ScaleCommand extends Command {
             double oldHeight = ScaleTypes.HEIGHT.calculate(entity);
 
             double scl = entity.yOffset * ScaleTypes.EYES.calculate(entity);
+            double oy = entity.posY - scl;
 
-            data.setScale(ScaleTypes.byName(type[0]), scale[0]);
+            ScaleTypes.byName(type[0]).set(entity, scale[0]);
 
             double width = ScaleTypes.WIDTH.calculate(entity);
             double height = ScaleTypes.HEIGHT.calculate(entity);
+            // update hitbox if necessary
             if (height != oldHeight || width != oldWidth) {
                 entity.setPosition(entity.posX, entity.posY - scl +
                         entity.yOffset * ScaleTypes.EYES.calculate(entity), entity.posZ);
             }
+
+            double ny = entity.posY - entity.yOffset * ScaleTypes.EYES.calculate(entity);
+            if (oy > ny) {
+                entity.moveEntity(0, 0.05, 0);
+            }
+
         } else if (action[0].equals("get")) {
             commandHandler.sendCommandFeedback(
                     commandSender,
@@ -104,6 +133,6 @@ public class ScaleCommand extends Command {
 
     @Override
     public void sendCommandSyntax(CommandHandler commandHandler, CommandSender commandSender) {
-        commandSender.sendMessage("test");
+        commandSender.sendMessage("/test");
     }
 }

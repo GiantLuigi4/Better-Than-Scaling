@@ -4,14 +4,19 @@
     "package": "tfc.better_than_scaling.mixin",
     "compatibilityLevel": "JAVA_8",
     "mixins": [
+        "CommandsMixin",
+        "entity.ArrowMixin",
         "entity.EntityMixin",
         "entity.LivingEntityMixin",
+        "entity.EntityTrackerMixin",
+        "entity.EntityTrackerEntryMixin",
         "entity.player.PlayerEntityMixin"
     ],
     "client": [
         "client.EntityPlayerSPMixin",
         "client.render.EntityRendererMixin",
         "client.render.RenderManagerMixin",
+        "client.render.RenderArrowMixin",
         "client.render.RenderLivingMixin"
     ],
     "injectors": {

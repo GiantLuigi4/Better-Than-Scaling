@@ -21,18 +21,24 @@ public class ScaleTypes {
     public static final ScaleType EYES = new ScaleType("better_than_scaling:eyes");
     public static final ScaleType VIEW = new ScaleType("better_than_scaling:view");
     public static final ScaleType MOTION = new ScaleType("better_than_scaling:motion");
+    public static final ScaleType STEP = new ScaleType("better_than_scaling:step");
     public static final ScaleType THIRD_PERSON = new ScaleType("better_than_scaling:third_person");
 
     // TODO
-    public static final ScaleType MINING_SPEED = new ScaleType("better_than_scaling:third_person");
-    public static final ScaleType FALL_DAMAGE = new ScaleType("better_than_scaling:third_person");
-    public static final ScaleType HEALTH = new ScaleType("better_than_scaling:third_person");
-    public static final ScaleType DEFENSE = new ScaleType("better_than_scaling:third_person");
+    public static final ScaleType MINING_SPEED = new ScaleType("better_than_scaling:mining_speed");
+    public static final ScaleType FALL_DAMAGE = new ScaleType("better_than_scaling:fall_damage");
+    public static final ScaleType HEALTH = new ScaleType("better_than_scaling:health");
+    public static final ScaleType DEFENSE = new ScaleType("better_than_scaling:defense");
 
     static {
         try {
             for (Field declaredField : ScaleTypes.class.getDeclaredFields()) {
-                if (!declaredField.getName().equals("BASE") && !declaredField.getName().equals("scaleTypes")) {
+                if (
+                        !declaredField.getName().equals("BASE") &&
+                                !declaredField.getName().equals("STEP") &&
+                                !declaredField.getName().equals("EYES") &&
+                                !declaredField.getName().equals("scaleTypes")
+                ) {
                     ScaleType type = (ScaleType) declaredField.get(null);
 
                     type.affectedBy.add(BASE);
@@ -41,5 +47,8 @@ public class ScaleTypes {
         } catch (Throwable err) {
             throw new RuntimeException(err);
         }
+
+        EYES.affectedBy.add(HEIGHT);
+        STEP.affectedBy.add(HEIGHT);
     }
 }

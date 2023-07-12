@@ -3,6 +3,7 @@ package tfc.better_than_scaling.ducks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
 import org.lwjgl.opengl.GL11;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import tfc.better_than_scaling.api.ScaleType;
 import tfc.better_than_scaling.api.ScaleTypes;
 
@@ -44,23 +45,24 @@ public class TestCode {
 
         instance.posY = y - instance.yOffset + instance.yOffset * escl;
 
-        float center = (instance.width / 2.0F)  * scaleX;
+        float center = (instance.width / 2.0F) * scaleX;
         float heightOfMob = instance.height;
 
         instance.boundingBox
-			.setBounds(
-                x - (double)center,
-                y - (double)(instance.yOffset * escl)+ (double)(instance.ySize * scaleY),
-                z - (double)center,
-                x + (double)center,
-                y - (double)(instance.yOffset * escl) + (double)(instance.ySize * scaleY) + (double)heightOfMob,
-                z + (double)center
-        );
+                .setBounds(
+                        x - (double) center,
+                        y - (double) (instance.yOffset * escl) + (double) (instance.ySize * scaleY),
+                        z - (double) center,
+                        x + (double) center,
+                        y - (double) (instance.yOffset * escl) + (double) (instance.ySize * scaleY) + (double) heightOfMob,
+                        z + (double) center
+                );
     }
 
     public static float scaleCamera(Entity instance) {
         float scl = (float) ScaleTypes.EYES.calculate(instance);
-        return instance.yOffset + (1.62f - instance.yOffset) * scl;
+//        return instance.yOffset + (1.62f - instance.yOffset) * scl;
+        return instance.yOffset;
     }
 
     public static void scaleRender(Entity entity) {
@@ -69,5 +71,11 @@ public class TestCode {
         float escl = (float) ScaleTypes.EYES.calculate(entity);
         GL11.glTranslatef(0, entity.yOffset + (0 - entity.yOffset) * escl, 0);
         GL11.glScalef(sclX, scl, sclX);
+    }
+
+    public static void translateRender(Entity entityliving, double d, double d1, double d2) {
+        float scl = (float) ScaleTypes.HEIGHT.calculate(entityliving);
+        float sclX = (float) ScaleTypes.WIDTH.calculate(entityliving);
+        GL11.glTranslatef((float) d / sclX, (float) d1 / scl, (float) d2 / sclX);
     }
 }

@@ -1,7 +1,9 @@
 package tfc.better_than_scaling.api;
 
+import net.fabricmc.loader.api.FabricLoader;
 import tfc.better_than_scaling.ducks.EntityExtensions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ScaleData {
@@ -17,5 +19,18 @@ public class ScaleData {
 
     public void setScale(ScaleType type, double v) {
         scales.put(type, v);
+    }
+
+    public void merge(ScaleData scaleData) {
+        for (ScaleType type : scaleData.scales.keySet()) {
+            scales.put(type, scaleData.scales.get(type));
+        }
+    }
+
+    public String[] getTypes() {
+        ArrayList<String> types = new ArrayList<>();
+        for (ScaleType type : this.scales.keySet())
+            types.add(type.name);
+        return types.toArray(new String[0]);
     }
 }
