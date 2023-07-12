@@ -10,14 +10,20 @@
         "entity.LivingEntityMixin",
         "entity.EntityTrackerMixin",
         "entity.EntityTrackerEntryMixin",
-        "entity.player.PlayerEntityMixin"
+        "entity.player.PlayerEntityMixin",
+        "quality.LeavesBlockMixin",
+        "quality.MeshBlockMixin",
+        "quality.EntityMixin",
+        "quality.BlockMixin"
     ],
     "client": [
         "client.EntityPlayerSPMixin",
         "client.render.EntityRendererMixin",
         "client.render.RenderManagerMixin",
         "client.render.RenderArrowMixin",
-        "client.render.RenderLivingMixin"
+        "client.render.RenderLivingMixin",
+        "client.render.ThirdPersonCameraMixin",
+        "client.PlayerControllerMixin"
     ],
     "injectors": {
         "defaultRequire": 1

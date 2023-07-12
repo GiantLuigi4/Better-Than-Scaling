@@ -18,17 +18,6 @@ public class EntityRendererMixin {
     @Shadow
     private Minecraft mc;
 
-//    @Redirect(method = "orientCamera", at = @At(value = "FIELD", target = "Lnet/minecraft/src/EntityLiving;yOffset:F"))
-//    public float preGetYOffset(EntityLiving instance) {
-//        return TestCode.scaleCamera(instance);
-//    }
-
-//    @ModifyConstant(method = "orientCamera", constant = @Constant(floatValue = -0.1f))
-//    public float pre01f(float constant) {
-//        float scl = (float) ScaleTypes.EYES.calculate(mc.thePlayer);
-//        return constant * scl;
-//    }
-
     @Redirect(method = "setupViewBobbing", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glTranslatef(FFF)V"))
     public void preTranslate(float x, float y, float z) {
         float scl = (float) ScaleTypes.VIEW.calculate(mc.thePlayer);
@@ -52,18 +41,6 @@ public class EntityRendererMixin {
         float scl = (float) ScaleTypes.VIEW.calculate(mc.thePlayer);
         GL11.glRotatef(angle * (float) Math.pow(scl, 0.95), x, y, z);
     }
-
-//    @Redirect(at = @At(value = "FIELD", target = "Lnet/minecraft/src/EntityRenderer;field_22227_s:F"), method = "orientCamera")
-//    public float getDist(WorldRenderer renderer) {
-//        float scl = (float) ScaleTypes.THIRD_PERSON.calculate(mc.thePlayer);
-//        return this.field_22227_s * scl;
-//    }
-//
-//    @Redirect(at = @At(value = "FIELD", target = "Lnet/minecraft/src/EntityRenderer;field_22228_r:F"), method = "orientCamera")
-//    public float getDistOld(WorldRenderer renderer) {
-//        float scl = (float) ScaleTypes.THIRD_PERSON.calculate(mc.thePlayer);
-//        return this.field_22228_r * scl;
-//    }
 
     @ModifyConstant(method = "setupPlayerCamera", constant = @Constant(floatValue = 0.05f))
     public float pre005f0(float constant) {

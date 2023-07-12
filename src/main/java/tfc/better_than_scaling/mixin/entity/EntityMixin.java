@@ -3,6 +3,7 @@ package tfc.better_than_scaling.mixin.entity;
 import com.mojang.nbt.CompoundTag;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityTrackerEntry;
+import net.minecraft.core.item.ItemHandCannonLoaded;
 import net.minecraft.core.util.phys.AABB;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -97,10 +98,10 @@ public abstract class EntityMixin implements EntityExtensions {
         return instance.heightOffset * (float) ScaleTypes.EYES.calculate((Entity) (Object) this);
     }
 
-//    @Redirect(method = "isEntityInsideOpaqueBlock", at = @At(value = "FIELD", target = "Lnet/minecraft/src/Entity;width:F"))
-//    public float calcWidth(Entity instance) {
-//        return instance.width * (float) ScaleTypes.WIDTH.calculate((Entity) (Object) this);
-//    }
+    @Redirect(method = "isInWall", at = @At(value = "FIELD", target = "Lnet/minecraft/core/entity/Entity;bbWidth:F"))
+    public float calcWidth(Entity instance) {
+        return instance.bbWidth * (float) ScaleTypes.WIDTH.calculate((Entity) (Object) this);
+    }
 
     @Redirect(method = "checkAndHandleWater", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/util/phys/AABB;expand(DDD)Lnet/minecraft/core/util/phys/AABB;"))
     public AABB calcOffset(AABB instance, double d, double d1, double d2) {

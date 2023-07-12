@@ -41,13 +41,11 @@ public class TestCode {
 //        return position;
 //    }
 
-    public static void scaleBounds(Object the, double x, double y, double z) {
-        Entity instance = (Entity) (Object) the;
+    public static void scaleBounds(Entity instance, double x, double y, double z) {
+        float scaleX = (float) ScaleTypes.WIDTH.calculate(instance);
+        float scaleY = (float) ScaleTypes.HEIGHT.calculate(instance);
 
-        float scaleX = (float) ScaleTypes.WIDTH.calculate((Entity) (Object) instance);
-        float scaleY = (float) ScaleTypes.HEIGHT.calculate((Entity) (Object) instance);
-
-        float escl = (float) ScaleTypes.EYES.calculate((Entity) (Object) instance);
+        float escl = (float) ScaleTypes.EYES.calculate(instance);
 
         instance.y = y - instance.heightOffset + instance.heightOffset * escl;
 

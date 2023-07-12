@@ -18,6 +18,11 @@ public abstract class LivingEntityMixin {
 
     @ModifyVariable(method = "rayTrace", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     public double scaleReach(double src) {
+        return src * ScaleTypes.REACH.calculate((Entity) (Object) this);
+    }
+
+    @ModifyVariable(method = "causeFallDamage", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+    public float scaleFD(float src) {
         return src * (float) ScaleTypes.REACH.calculate((Entity) (Object) this);
     }
 

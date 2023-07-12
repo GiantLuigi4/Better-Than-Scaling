@@ -22,7 +22,7 @@
     ]
   },
   "mixins": [
-    "better_than_scaling.json"
+    "better_than_scaling.mixin.json"
   ],
 
   "depends": {

@@ -91,30 +91,9 @@ public class ScaleCommand extends Command {
         // parse command
         rootArg.next(args, 0);
 
-        ScaleData data = ((EntityExtensions) commandSender.getPlayer()).getScaleData();
         if (action[0].equals("set")) {
             Entity entity = commandSender.getPlayer();
-            double oldWidth = ScaleTypes.WIDTH.calculate(entity);
-            double oldHeight = ScaleTypes.HEIGHT.calculate(entity);
-
-            double scl = entity.heightOffset * ScaleTypes.EYES.calculate(entity);
-            double oy = entity.y - scl;
-
             ScaleTypes.byName(type[0]).set(entity, scale[0]);
-
-            double width = ScaleTypes.WIDTH.calculate(entity);
-            double height = ScaleTypes.HEIGHT.calculate(entity);
-            // update hitbox if necessary
-            if (height != oldHeight || width != oldWidth) {
-                entity.setPos(entity.x, entity.y - scl +
-                        entity.heightOffset * ScaleTypes.EYES.calculate(entity), entity.z);
-            }
-
-            double ny = entity.y - entity.heightOffset * ScaleTypes.EYES.calculate(entity);
-            if (oy > ny) {
-                entity.move(0, 0.05, 0);
-            }
-
         } else if (action[0].equals("get")) {
             commandHandler.sendCommandFeedback(
                     commandSender,
