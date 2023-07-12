@@ -1,6 +1,6 @@
 package tfc.better_than_scaling.net;
 
-import net.minecraft.src.Packet;
+import net.minecraft.core.net.packet.Packet;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

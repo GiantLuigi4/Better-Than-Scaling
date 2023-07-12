@@ -1,9 +1,9 @@
 package tfc.better_than_scaling.mixin.entity;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityTrackerEntry;
-import net.minecraft.src.NBTTagCompound;
+import com.mojang.nbt.CompoundTag;
+import net.minecraft.core.entity.Entity;
+import net.minecraft.core.entity.EntityTrackerEntry;
+import net.minecraft.core.util.phys.AABB;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -36,7 +36,7 @@ public abstract class EntityMixin implements EntityExtensions {
         return scaleData;
     }
 
-    @Shadow @Final public AxisAlignedBB boundingBox;
+    @Shadow @Final public AABB boundingBox;
 
     @Shadow public float height;
 
@@ -49,73 +49,73 @@ public abstract class EntityMixin implements EntityExtensions {
     @Shadow public double posZ;
 
     // hitbox scaling
-    @Inject(at = @At("TAIL"), method = "setPosition")
+    @Inject(at = @At("TAIL"), method = "setPos")
     public void postSetPos(double x, double y, double z, CallbackInfo ci) {
         TestCode.scaleBounds((Entity) (Object) this, x, y, z);
     }
 
     //@formatter:off
-    @Redirect(method = "onEntityUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/src/Entity;motionX:D"))
-    public double scaleXMot(Entity instance) { return instance.motionX * ScaleTypes.MOTION.calculate((Entity) (Object) this); }
-    @Redirect(method = "onEntityUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/src/Entity;motionY:D"))
-    public double scaleYMot(Entity instance) { return instance.motionY * ScaleTypes.MOTION.calculate((Entity) (Object) this); }
-    @Redirect(method = "onEntityUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/src/Entity;motionZ:D"))
-    public double scaleZMot(Entity instance) { return instance.motionZ * ScaleTypes.MOTION.calculate((Entity) (Object) this); }
+    @Redirect(method = "baseTick", at = @At(value = "FIELD", target = "Lnet/minecraft/core/entity/Entity;xd:D"))
+    public double scaleXMot(Entity instance) { return instance.xd * ScaleTypes.MOTION.calculate((Entity) (Object) this); }
+    @Redirect(method = "baseTick", at = @At(value = "FIELD", target = "Lnet/minecraft/core/entity/Entity;yd:D"))
+    public double scaleYMot(Entity instance) { return instance.yd * ScaleTypes.MOTION.calculate((Entity) (Object) this); }
+    @Redirect(method = "baseTick", at = @At(value = "FIELD", target = "Lnet/minecraft/core/entity/Entity;zd:D"))
+    public double scaleZMot(Entity instance) { return instance.zd * ScaleTypes.MOTION.calculate((Entity) (Object) this); }
 
     // motion scaling
-    @ModifyVariable(method = "moveEntity", at = @At("HEAD"),  ordinal = 0, argsOnly = true)
+    @ModifyVariable(method = "move", at = @At("HEAD"),  ordinal = 0, argsOnly = true)
     public double preMoveX(double x) { return x * ScaleTypes.MOTION.calculate((Entity) (Object) this); }
-    @ModifyVariable(method = "moveEntity", at = @At("HEAD"),  ordinal = 1, argsOnly = true)
+    @ModifyVariable(method = "move", at = @At("HEAD"),  ordinal = 1, argsOnly = true)
     public double preMoveY(double x) { return x * ScaleTypes.MOTION.calculate((Entity) (Object) this); }
-    @ModifyVariable(method = "moveEntity", at = @At("HEAD"),  ordinal = 2, argsOnly = true)
+    @ModifyVariable(method = "move", at = @At("HEAD"),  ordinal = 2, argsOnly = true)
     public double preMoveZ(double x) { return x * ScaleTypes.MOTION.calculate((Entity) (Object) this); }
 
     // view bobbing
-    @ModifyConstant(method = "moveEntity", constant = @Constant(doubleValue = 0.6))
+    @ModifyConstant(method = "move", constant = @Constant(doubleValue = 0.6))
     public double pre06f(double constant) {return constant / ScaleTypes.MOTION.calculate((Entity) (Object) this);}
     //@formatter:on
 
-    @Inject(at = @At("HEAD"), method = "writeToNBT")
-    public void preWrite(NBTTagCompound nbttagcompound, CallbackInfo ci) {
-        NBTTagCompound compound = new NBTTagCompound();
+    @Inject(at = @At("HEAD"), method = "saveWithoutId")
+    public void preWrite(CompoundTag nbttagcompound, CallbackInfo ci) {
+        CompoundTag compound = new CompoundTag();
         scaleData.scales.forEach((entry, value) -> {
-            if (value != 1) compound.setDouble(entry.name, value);
+            if (value != 1) compound.putDouble(entry.name, value);
         });
-        nbttagcompound.setCompoundTag("better_than_scaling", compound);
+        nbttagcompound.putCompound("better_than_scaling", compound);
     }
 
-    @Inject(at = @At("HEAD"), method = "readFromNBT")
-    public void preRead(NBTTagCompound nbttagcompound, CallbackInfo ci) {
-        NBTTagCompound compound = nbttagcompound.getCompoundTag("better_than_scaling");
+    @Inject(at = @At("HEAD"), method = "load")
+    public void preRead(CompoundTag nbttagcompound, CallbackInfo ci) {
+        CompoundTag compound = nbttagcompound.getCompound("better_than_scaling");
         for (ScaleType scaleType : ScaleTypes.getScaleTypes()) {
-            if (compound.hasKey(scaleType.name)) {
+            if (compound.containsKey(scaleType.name)) {
                 scaleData.setScale(scaleType, compound.getDouble(scaleType.name));
             }
         }
     }
 
-    @Redirect(method = "moveEntity", at = @At(value = "FIELD", target = "Lnet/minecraft/src/Entity;yOffset:F"))
+    @Redirect(method = "move", at = @At(value = "FIELD", target = "Lnet/minecraft/core/entity/Entity;heightOffset:F"))
     public float calcYOffset1(Entity instance) {
-        return instance.yOffset * (float) ScaleTypes.EYES.calculate((Entity) (Object) this);
+        return instance.heightOffset * (float) ScaleTypes.EYES.calculate((Entity) (Object) this);
     }
 
-    @Redirect(method = "moveEntity", at = @At(value = "FIELD", target = "Lnet/minecraft/src/Entity;stepHeight:F"))
+    @Redirect(method = "move", at = @At(value = "FIELD", target = "Lnet/minecraft/core/entity/Entity;footSize:F"))
     public float calcStepHeight(Entity instance) {
-        return instance.stepHeight * (float) ScaleTypes.STEP.calculate((Entity) (Object) this);
+        return instance.footSize * (float) ScaleTypes.STEP.calculate((Entity) (Object) this);
     }
 
-    @Redirect(method = "getEntityBrightness", at = @At(value = "FIELD", target = "Lnet/minecraft/src/Entity;yOffset:F"))
+    @Redirect(method = "getBrightness", at = @At(value = "FIELD", target = "Lnet/minecraft/core/entity/Entity;heightOffset:F"))
     public float calcYOffset3(Entity instance) {
-        return instance.yOffset * (float) ScaleTypes.EYES.calculate((Entity) (Object) this);
+        return instance.heightOffset * (float) ScaleTypes.EYES.calculate((Entity) (Object) this);
     }
 
-    @Redirect(method = "isEntityInsideOpaqueBlock", at = @At(value = "FIELD", target = "Lnet/minecraft/src/Entity;width:F"))
-    public float calcWidth(Entity instance) {
-        return instance.width * (float) ScaleTypes.WIDTH.calculate((Entity) (Object) this);
-    }
+//    @Redirect(method = "isEntityInsideOpaqueBlock", at = @At(value = "FIELD", target = "Lnet/minecraft/src/Entity;width:F"))
+//    public float calcWidth(Entity instance) {
+//        return instance.width * (float) ScaleTypes.WIDTH.calculate((Entity) (Object) this);
+//    }
 
-    @Redirect(method = "handleWaterMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/src/AxisAlignedBB;expand(DDD)Lnet/minecraft/src/AxisAlignedBB;"))
-    public AxisAlignedBB calcOffset(AxisAlignedBB instance, double d, double d1, double d2) {
+    @Redirect(method = "checkAndHandleWater", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/util/phys/AABB;expand(DDD)Lnet/minecraft/core/util/phys/AABB;"))
+    public AABB calcOffset(AABB instance, double d, double d1, double d2) {
         return instance.expand(
                 d,
                 d1 * (float) ScaleTypes.HEIGHT.calculate((Entity) (Object) this),

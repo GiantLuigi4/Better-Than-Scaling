@@ -1,6 +1,7 @@
 package tfc.better_than_scaling.api;
 
-import net.minecraft.src.*;
+import net.minecraft.core.entity.Entity;
+import net.minecraft.core.entity.EntityTrackerEntry;
 import tfc.better_than_scaling.ducks.EntityExtensions;
 import tfc.better_than_scaling.net.ScalePacket;
 
@@ -37,7 +38,7 @@ public class ScaleType {
         if (tracker != null) {
             tracker.sendPacketToTrackedPlayersAndTrackedEntity(
                     new ScalePacket(
-                            entity.entityId, this.name,
+                            entity.id, this.name,
                             amount
                     )
             );

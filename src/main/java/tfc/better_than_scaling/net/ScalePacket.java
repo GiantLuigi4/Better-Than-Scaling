@@ -1,10 +1,10 @@
 package tfc.better_than_scaling.net;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.Entity;
-import net.minecraft.src.NetClientHandler;
-import net.minecraft.src.NetHandler;
-import net.minecraft.src.Packet;
+import net.minecraft.core.entity.Entity;
+import net.minecraft.core.net.handler.NetHandler;
+import net.minecraft.core.net.packet.Packet;
+import tfc.better_than_scaling.MinecraftCache;
 import tfc.better_than_scaling.api.ScaleType;
 import tfc.better_than_scaling.api.ScaleTypes;
 
@@ -42,8 +42,8 @@ public class ScalePacket extends Packet {
 
     @Override
     public void processPacket(NetHandler netHandler) {
-        for (Entity entity : Minecraft.getMinecraft().thePlayer.worldObj.getLoadedEntityList()) {
-            if (entity.entityId == id) {
+        for (Entity entity : MinecraftCache.MINECRAFT.thePlayer.world.getLoadedEntityList()) {
+            if (entity.id == id) {
                 ScaleType type1 = ScaleTypes.byName(type);
                 type1.set(entity, scale);
                 return;

@@ -1,9 +1,10 @@
 package tfc.better_than_scaling.net;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.Entity;
-import net.minecraft.src.NetHandler;
-import net.minecraft.src.Packet;
+import net.minecraft.core.entity.Entity;
+import net.minecraft.core.net.handler.NetHandler;
+import net.minecraft.core.net.packet.Packet;
+import tfc.better_than_scaling.MinecraftCache;
 import tfc.better_than_scaling.api.ScaleData;
 import tfc.better_than_scaling.api.ScaleType;
 import tfc.better_than_scaling.api.ScaleTypes;
@@ -22,7 +23,7 @@ public class BulkScalePacket extends Packet {
     }
 
     public BulkScalePacket(Entity entity) {
-        this.id = entity.entityId;
+        this.id = entity.id;
         EntityExtensions extensions = ((EntityExtensions) entity);
         ScaleData data = extensions.getScaleData();
         this.types = data.getTypes();
@@ -55,8 +56,8 @@ public class BulkScalePacket extends Packet {
 
     @Override
     public void processPacket(NetHandler netHandler) {
-        for (Entity entity : Minecraft.getMinecraft().thePlayer.worldObj.getLoadedEntityList()) {
-            if (entity.entityId == id) {
+        for (Entity entity : MinecraftCache.MINECRAFT.thePlayer.world.getLoadedEntityList()) {
+            if (entity.id == id) {
                 for (int i = 0; i < types.length; i++) {
                     String type = types[i];
                     double scale = scales[i];

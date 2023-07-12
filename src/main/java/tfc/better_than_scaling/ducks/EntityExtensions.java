@@ -1,7 +1,6 @@
 package tfc.better_than_scaling.ducks;
 
-import net.minecraft.src.EntityTracker;
-import net.minecraft.src.EntityTrackerEntry;
+import net.minecraft.core.entity.EntityTrackerEntry;
 import tfc.better_than_scaling.api.ScaleData;
 
 public interface EntityExtensions {

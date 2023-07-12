@@ -1,11 +1,10 @@
 package tfc.better_than_scaling.cmd;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.command.ChatColor;
-import net.minecraft.src.command.Command;
-import net.minecraft.src.command.CommandHandler;
-import net.minecraft.src.command.CommandSender;
-import net.minecraft.src.command.commands.HelpCommand;
+import net.minecraft.core.entity.Entity;
+import net.minecraft.core.net.command.Command;
+import net.minecraft.core.net.command.CommandHandler;
+import net.minecraft.core.net.command.CommandSender;
+import net.minecraft.core.net.command.TextFormatting;
 import tfc.better_than_scaling.api.ScaleData;
 import tfc.better_than_scaling.api.ScaleType;
 import tfc.better_than_scaling.api.ScaleTypes;
@@ -34,18 +33,18 @@ public class ScaleCommand extends Command {
         if (args.length == 0) {
             commandHandler.sendCommandFeedback(commandSender, "Syntax:");
 
-            commandHandler.sendCommandFeedback(commandSender, ChatColor.lightGray + "/scale [number]");
-            commandHandler.sendCommandFeedback(commandSender, ChatColor.lightGray + "/scale set [number]");
+            commandHandler.sendCommandFeedback(commandSender, TextFormatting.LIGHT_GRAY + "/scale [number]");
+            commandHandler.sendCommandFeedback(commandSender, TextFormatting.LIGHT_GRAY + "/scale set [number]");
             commandHandler.sendCommandFeedback(commandSender, "Sets your base scale");
 
-            commandHandler.sendCommandFeedback(commandSender, ChatColor.lightGray + "/scale [type] [number]");
-            commandHandler.sendCommandFeedback(commandSender, ChatColor.lightGray + "/scale set [type] [number]");
+            commandHandler.sendCommandFeedback(commandSender, TextFormatting.LIGHT_GRAY + "/scale [type] [number]");
+            commandHandler.sendCommandFeedback(commandSender, TextFormatting.LIGHT_GRAY + "/scale set [type] [number]");
             commandHandler.sendCommandFeedback(commandSender, "Sets your scale factor for a scale type");
 
-            commandHandler.sendCommandFeedback(commandSender, ChatColor.lightGray + "/scale get");
+            commandHandler.sendCommandFeedback(commandSender, TextFormatting.LIGHT_GRAY + "/scale get");
             commandHandler.sendCommandFeedback(commandSender, "Gets your base scale");
 
-            commandHandler.sendCommandFeedback(commandSender, ChatColor.lightGray + "/scale get");
+            commandHandler.sendCommandFeedback(commandSender, TextFormatting.LIGHT_GRAY + "/scale get");
             commandHandler.sendCommandFeedback(commandSender, "Gets your scale factor for a scale type");
 
             return true;
@@ -98,8 +97,8 @@ public class ScaleCommand extends Command {
             double oldWidth = ScaleTypes.WIDTH.calculate(entity);
             double oldHeight = ScaleTypes.HEIGHT.calculate(entity);
 
-            double scl = entity.yOffset * ScaleTypes.EYES.calculate(entity);
-            double oy = entity.posY - scl;
+            double scl = entity.heightOffset * ScaleTypes.EYES.calculate(entity);
+            double oy = entity.y - scl;
 
             ScaleTypes.byName(type[0]).set(entity, scale[0]);
 
@@ -107,13 +106,13 @@ public class ScaleCommand extends Command {
             double height = ScaleTypes.HEIGHT.calculate(entity);
             // update hitbox if necessary
             if (height != oldHeight || width != oldWidth) {
-                entity.setPosition(entity.posX, entity.posY - scl +
-                        entity.yOffset * ScaleTypes.EYES.calculate(entity), entity.posZ);
+                entity.setPos(entity.x, entity.y - scl +
+                        entity.heightOffset * ScaleTypes.EYES.calculate(entity), entity.z);
             }
 
-            double ny = entity.posY - entity.yOffset * ScaleTypes.EYES.calculate(entity);
+            double ny = entity.y - entity.heightOffset * ScaleTypes.EYES.calculate(entity);
             if (oy > ny) {
-                entity.moveEntity(0, 0.05, 0);
+                entity.move(0, 0.05, 0);
             }
 
         } else if (action[0].equals("get")) {

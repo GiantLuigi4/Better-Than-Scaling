@@ -1,6 +1,8 @@
 package tfc.better_than_scaling.mixin.entity;
 
-import net.minecraft.src.*;
+import net.minecraft.core.entity.Entity;
+import net.minecraft.core.entity.EntityLiving;
+import net.minecraft.core.util.phys.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -13,10 +15,10 @@ import tfc.better_than_scaling.ducks.TestCode;
 @Mixin(value = EntityLiving.class, remap = false)
 public abstract class LivingEntityMixin {
     @Shadow
-    public abstract Vec3D getPosition(float f);
+    public abstract Vec3d getPosition(float f);
 
     @Shadow
-    public abstract Vec3D getLook(float f);
+    public abstract Vec3d getLook(float f);
 
     @Shadow
     public abstract float getEyeHeight();
