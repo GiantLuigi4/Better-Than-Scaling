@@ -1,5 +1,6 @@
 package tfc.better_than_scaling.mixin.entity.player;
 
+import net.minecraft.client.entity.player.EntityPlayerSP;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.monster.EntitySkeleton;
 import net.minecraft.core.entity.player.EntityPlayer;
