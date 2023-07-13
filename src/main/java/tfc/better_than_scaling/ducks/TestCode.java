@@ -82,4 +82,10 @@ public class TestCode {
         float sclX = (float) ScaleTypes.WIDTH.calculate(entityliving);
         GL11.glTranslatef((float) d / sclX, (float) d1 / scl, (float) d2 / sclX);
     }
+
+    public static void scaleArrowPos(Entity entity, EntityLiving shooter) {
+        float scl = (float) ScaleTypes.EYES.calculate(shooter);
+        entity.y = shooter.y + shooter.getHeadHeight();
+        ((Entity) (Object) entity).y -= 0.1 * scl;
+    }
 }

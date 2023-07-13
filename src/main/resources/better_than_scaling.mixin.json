@@ -14,7 +14,9 @@
         "quality.LeavesBlockMixin",
         "quality.MeshBlockMixin",
         "quality.EntityMixin",
-        "quality.BlockMixin"
+        "quality.BlockMixin",
+        "quality.WorldMixin",
+        "entity.CannonballMixin"
     ],
     "client": [
         "client.EntityPlayerSPMixin",
@@ -23,7 +25,8 @@
         "client.render.RenderArrowMixin",
         "client.render.RenderLivingMixin",
         "client.render.ThirdPersonCameraMixin",
-        "client.PlayerControllerMixin"
+        "client.PlayerControllerMixin",
+        "client.render.RenderCannonballMixin"
     ],
     "injectors": {
         "defaultRequire": 1

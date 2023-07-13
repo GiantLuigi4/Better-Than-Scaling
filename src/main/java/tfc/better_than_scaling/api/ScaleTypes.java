@@ -23,6 +23,7 @@ public class ScaleTypes {
     public static final ScaleType MOTION = new ScaleType("better_than_scaling:motion");
     public static final ScaleType STEP = new ScaleType("better_than_scaling:step");
     public static final ScaleType THIRD_PERSON = new ScaleType("better_than_scaling:third_person");
+    public static final ScaleType EXPLOSION = new ScaleType("better_than_scaling:explosion");
 
     // TODO
     public static final ScaleType MINING_SPEED = new ScaleType("better_than_scaling:mining_speed");

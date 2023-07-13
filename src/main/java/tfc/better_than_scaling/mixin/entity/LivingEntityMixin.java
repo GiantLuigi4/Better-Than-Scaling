@@ -14,7 +14,8 @@ import tfc.better_than_scaling.ducks.TestCode;
 
 @Mixin(value = EntityLiving.class, remap = false)
 public abstract class LivingEntityMixin {
-    @Shadow protected int entityAge;
+    @Shadow
+    protected int entityAge;
 
     @ModifyVariable(method = "rayTrace", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     public double scaleReach(double src) {
@@ -23,11 +24,16 @@ public abstract class LivingEntityMixin {
 
     @ModifyVariable(method = "causeFallDamage", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     public float scaleFD(float src) {
-        return src * (float) ScaleTypes.REACH.calculate((Entity) (Object) this);
+        return src / (float) ScaleTypes.FALL_DAMAGE.calculate((Entity) (Object) this);
     }
 
     @ModifyConstant(method = "moveEntityWithHeading", constant = @Constant(floatValue = 4.0f))
     public float pre04f(float constant) {
         return constant / (float) ScaleTypes.MOTION.calculate((Entity) (Object) this);
+    }
+
+    @Inject(at = @At("RETURN"), method = "getHeadHeight", cancellable = true)
+    public void postGetEyeHeight(CallbackInfoReturnable<Float> cir) {
+        cir.setReturnValue(cir.getReturnValueF() * (float) ScaleTypes.EYES.calculate((Entity) (Object) this));
     }
 }
