@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "entrypoints": {
+      "main": [
+        "tfc.better_than_scaling.BetterThanScaling",
+      ]
+    },
+    "group": "tfc",
+    "id":"better_than_scaling",
+    "version": "${version}",
+    "intermediate_mappings": "net.fabricmc:intermediary"
+  },
+  "mixin": [
+    "better_than_scaling.mixins.json"
+  ]
+}
