@@ -10,6 +10,7 @@
         "entity.LivingEntityMixin",
         "entity.EntityTrackerMixin",
         "entity.EntityTrackerEntryMixin",
+        "entity.player.EntityPlayerMPMixin",
         "entity.player.PlayerEntityMixin",
         "quality.LeavesBlockMixin",
         "quality.MeshBlockMixin",
