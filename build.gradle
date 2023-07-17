@@ -1,3 +1,5 @@
+import java.nio.file.Files
+
 plugins {
 	id "org.quiltmc.loom" version "1.+"
 	id 'java'
@@ -13,7 +15,16 @@ loom {
 	clientOnlyMinecraftJar()
 	noIntermediateMappings()
 //	customMinecraftManifest.set("https://github.com/Turnip-Labs/bta-manifest-repo/releases/download/v${project.bta_version}/${project.bta_version}.json")
-	customMinecraftManifest.set("https://github.com/MartinSVK12/bta-manifest-repo/releases/download/v${project.bta_version}/${project.bta_version}.json")
+
+	// I like having the ability to work offline
+	String pth = "https://github.com/MartinSVK12/bta-manifest-repo/releases/download/v${project.bta_version}/${project.bta_version}.json"
+//	if (InetAddress.getByName(pth).isReachable(30)) {
+//		Files.copy(new URL(pth).openStream(), new File(buildDir + "/loom-cache/manifest.json").toPath())
+		customMinecraftManifest.set(pth)
+//		customMinecraftManifest.set(new File(buildDir + "/loom-cache/manifest.json").toURL().toString())
+//	} else {
+//		customMinecraftManifest.set(new File(buildDir + "/loom-cache/manifest.json").toURL().toString())
+//	}
 }
 
 repositories {

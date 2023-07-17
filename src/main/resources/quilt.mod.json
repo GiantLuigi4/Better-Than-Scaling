@@ -3,15 +3,15 @@
   "quilt_loader": {
     "entrypoints": {
       "main": [
-        "tfc.better_than_scaling.BetterThanScaling",
+        "tfc.better_than_scaling.BetterThanScaling"
       ]
     },
     "group": "tfc",
     "id":"better_than_scaling",
-    "version": "${version}",
+    "version": "1.0.0",
     "intermediate_mappings": "net.fabricmc:intermediary"
   },
   "mixin": [
-    "better_than_scaling.mixins.json"
+    "better_than_scaling.mixin.json"
   ]
 }
