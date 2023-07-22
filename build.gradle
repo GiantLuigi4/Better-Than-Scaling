@@ -4,6 +4,7 @@ plugins {
 	id "org.quiltmc.loom" version "1.+"
 	id 'java'
 //	id 'io.github.juuxel.loom-quiltflower' version '1.10.0'
+	id 'maven-publish'
 }
 
 group = project.mod_group
@@ -101,5 +102,20 @@ jar {
 processResources {
 	filesMatching("quilt.mod.json") {
 		expand "version": "${mod_version}"
+	}
+}
+
+publishing {
+	publications {
+		maven(MavenPublication) {
+			groupId = 'tfc'
+			artifactId = 'BetterThanScaling'
+			version = "1.0-SNAPSHOT"
+
+
+			artifact(sourcesJar) {
+				from components.java
+			}
+		}
 	}
 }
