@@ -107,15 +107,15 @@ processResources {
 
 publishing {
 	publications {
-		maven(MavenPublication) {
-			groupId = 'tfc'
-			artifactId = 'BetterThanScaling'
-			version = "1.0-SNAPSHOT"
-
-
+		mavenJava(MavenPublication) {
 			artifact(sourcesJar) {
 				from components.java
 			}
+		}
+	}
+	repositories {
+		maven {
+			url "file:///${project.projectDir}/mcmodsrepo"
 		}
 	}
 }
