@@ -58,7 +58,7 @@ public class TestCode {
                         y - (double) (instance.heightOffset * escl) + (double) (instance.bbHeight * scaleY),
                         z - (double) center,
                         x + (double) center,
-                        y - (double) (instance.heightOffset * escl) + (double) (instance.bbHeight * scaleY) + (double) heightOfMob,
+                        y - (double) (instance.heightOffset * escl) + (double) (instance.bbHeight * scaleY) + (double) heightOfMob * scaleY,
                         z + (double) center
                 );
     }
