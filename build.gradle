@@ -1,9 +1,9 @@
 import java.nio.file.Files
 
 plugins {
-	id "org.quiltmc.loom" version "1.+"
+	id 'babric-loom' version '1.1.+'
 	id 'java'
-//	id 'io.github.juuxel.loom-quiltflower' version '1.10.0'
+	id 'io.github.juuxel.loom-quiltflower' version '1.10.0'
 	id 'maven-publish'
 }
 
@@ -12,20 +12,9 @@ archivesBaseName = project.mod_name
 version = project.mod_version
 
 loom {
-//	gluedMinecraftJar()
-	clientOnlyMinecraftJar()
+	gluedMinecraftJar()
 	noIntermediateMappings()
-//	customMinecraftManifest.set("https://github.com/Turnip-Labs/bta-manifest-repo/releases/download/v${project.bta_version}/${project.bta_version}.json")
-
-	// I like having the ability to work offline
-	String pth = "https://github.com/MartinSVK12/bta-manifest-repo/releases/download/v${project.bta_version}/${project.bta_version}.json"
-//	if (InetAddress.getByName(pth).isReachable(30)) {
-//		Files.copy(new URL(pth).openStream(), new File(buildDir + "/loom-cache/manifest.json").toPath())
-		customMinecraftManifest.set(pth)
-//		customMinecraftManifest.set(new File(buildDir + "/loom-cache/manifest.json").toURL().toString())
-//	} else {
-//		customMinecraftManifest.set(new File(buildDir + "/loom-cache/manifest.json").toURL().toString())
-//	}
+	customMinecraftManifest.set("https://github.com/Turnip-Labs/bta-manifest-repo/releases/download/v${project.bta_version}/${project.bta_version}.json")
 }
 
 repositories {
@@ -77,7 +66,7 @@ dependencies {
 
 	//modImplementation("bta-provider:bta-provider:1.0.0")
 	modRuntimeOnly "objects:client:43db9b498cb67058d2e12d394e6507722e71bb45" // https://piston-data.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar
-	modImplementation("quilt-loader:quilt-loader:${project.qloader_version}")
+	modImplementation("fabric-loader:fabric-loader:${project.loader_version}")
 	// Helper library
 	// If you do not need Halplibe you can comment this line out or delete this line
 	//modImplementation "bta-halplibe:halplibe:${project.halplibe_version}"
@@ -100,7 +89,7 @@ jar {
 }
 
 processResources {
-	filesMatching("quilt.mod.json") {
+	filesMatching("fabric.mod.json") {
 		expand "version": "${mod_version}"
 	}
 }

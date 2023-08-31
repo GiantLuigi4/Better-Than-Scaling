@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "better_than_scaling",
+  "version": "${version}",
+
+  "name": "Better Than Scaling",
+  "description": "An entity scaling mod for BTA.",
+  "authors": [
+    "GiantLuigi4"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "CC0-1.0",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "tfc.better_than_scaling.BetterThanScaling"
+    ]
+  },
+  "mixins": [
+    "better_than_scaling.mixin.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.13.3"
+  },
+  "suggests": {
+  }
+}

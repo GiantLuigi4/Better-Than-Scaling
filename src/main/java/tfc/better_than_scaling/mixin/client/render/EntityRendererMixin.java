@@ -2,7 +2,6 @@ package tfc.better_than_scaling.mixin.client.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.client.render.camera.EntityCameraThirdPerson;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
