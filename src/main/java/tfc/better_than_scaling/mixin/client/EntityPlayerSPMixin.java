@@ -27,7 +27,7 @@ public class EntityPlayerSPMixin {
     @Inject(at = @At("HEAD"), method = "checkInTile", cancellable = true)
     public void preCheckInTile(double d, double d1, double d2, CallbackInfoReturnable<Boolean> cir) {
         // TODO: make this respond to player height instead of cancelling it entirely
-        if (ScaleTypes.HEIGHT.calculate((Entity) (Object) this) < 0.5)
+        if (ScaleTypes.HEIGHT.calculate((Entity) (Object) this) < 0.85)
             cir.setReturnValue(false);
     }
 }

@@ -35,12 +35,12 @@ public class BulkScalePacket extends Packet {
     @Override
     public void readPacketData(DataInputStream dataInputStream) throws IOException {
         id = dataInputStream.readInt();
-        int i = 0;
+        int i = dataInputStream.readInt();
         types = new String[i];
         scales = new double[i];
         for (int i1 = 0; i1 < types.length; i1++) {
-            types[i] = dataInputStream.readUTF();
-            scales[i] = dataInputStream.readDouble();
+            types[i1] = dataInputStream.readUTF();
+            scales[i1] = dataInputStream.readDouble();
         }
     }
 
