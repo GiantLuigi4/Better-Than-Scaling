@@ -36,8 +36,8 @@ public class ScaleType {
         double oldHeight = ScaleTypes.HEIGHT.calculate(entity);
 
         double scl = entity.heightOffset * ScaleTypes.EYES.calculate(entity);
-        double oy = entity.y - scl;
         double x = entity.x, y = entity.y - scl, z = entity.z;
+        double oldFeetY = entity.bb.minY;
 
         ((EntityExtensions) entity).getScaleData().setScale(this, amount);
 
@@ -48,9 +48,10 @@ public class ScaleType {
         if (height != oldHeight || width != oldWidth)
             entity.setPos(x, y, z);
 
+        double feetY = entity.bb.minY;
+
         // account for imprecision
-        double ny = entity.y - entity.heightOffset * ScaleTypes.EYES.calculate(entity);
-        if (oy > ny) entity.move(0, 0.05, 0);
+        entity.move(0, (oldFeetY - feetY) / ScaleTypes.MOTION.calculate(entity), 0);
 
         // sync to clients
         EntityTrackerEntry tracker = ((EntityExtensions) entity).getTracker();

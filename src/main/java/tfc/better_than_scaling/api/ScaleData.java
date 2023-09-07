@@ -1,7 +1,6 @@
 package tfc.better_than_scaling.api;
 
-import net.fabricmc.loader.api.FabricLoader;
-import tfc.better_than_scaling.ducks.EntityExtensions;
+import net.minecraft.core.entity.Entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +18,12 @@ public class ScaleData {
 
     public void setScale(ScaleType type, double v) {
         scales.put(type, v);
+    }
+
+    public void merge(Entity target, ScaleData scaleData) {
+        for (ScaleType type : scaleData.scales.keySet()) {
+            type.set(target, scaleData.scales.get(type));
+        }
     }
 
     public void merge(ScaleData scaleData) {

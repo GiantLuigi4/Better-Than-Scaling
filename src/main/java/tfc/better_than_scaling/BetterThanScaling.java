@@ -10,7 +10,7 @@ public class BetterThanScaling implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        PacketRegister.register(ScalePacket.class, false, true);
-        PacketRegister.register(BulkScalePacket.class, false, true);
+        PacketRegister.register(ScalePacket.class, true, true);
+        PacketRegister.register(BulkScalePacket.class, true, true);
     }
 }

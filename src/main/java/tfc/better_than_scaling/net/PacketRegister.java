@@ -14,9 +14,12 @@ public class PacketRegister {
 
             Map<Integer, Class<?>> map = (Map<Integer, Class<?>>) f.get(null);
             int free = 0;
-            for (Integer integer : map.keySet())
-                if (free == integer)
-                    free = integer + 1;
+            while (map.containsKey(free)) {
+                free++;
+            }
+//            for (Integer integer : map.keySet())
+//                if (free <= integer)
+//                    free = integer + 1;
 
             Method m = Packet.class.getDeclaredMethod("addIdClassMapping", int.class, boolean.class, boolean.class, Class.class);
             m.setAccessible(true);

@@ -1,34 +1,37 @@
 {
-    "required": true,
-    "minVersion": "0.8",
-    "package": "tfc.better_than_scaling.mixin",
-    "compatibilityLevel": "JAVA_8",
-    "mixins": [
-        "CommandsMixin",
-        "entity.ArrowMixin",
-        "entity.EntityMixin",
-        "entity.LivingEntityMixin",
-        "entity.EntityTrackerMixin",
-        "entity.EntityTrackerEntryMixin",
-        "entity.player.PlayerEntityMixin",
-        "quality.LeavesBlockMixin",
-        "quality.MeshBlockMixin",
-        "quality.EntityMixin",
-        "quality.BlockMixin",
-        "quality.WorldMixin",
-        "entity.CannonballMixin"
-    ],
-    "client": [
-        "client.EntityPlayerSPMixin",
-        "client.render.EntityRendererMixin",
-        "client.render.RenderManagerMixin",
-        "client.render.RenderArrowMixin",
-        "client.render.RenderLivingMixin",
-        "client.render.ThirdPersonCameraMixin",
-        "client.PlayerControllerMixin",
-        "client.render.RenderCannonballMixin"
-    ],
-    "injectors": {
-        "defaultRequire": 1
+  "required": true,
+  "minVersion": "0.8",
+  "package": "tfc.better_than_scaling.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "CommandsMixin",
+    "entity.ArrowMixin",
+    "entity.CannonballMixin",
+    "entity.EntityMixin",
+    "entity.EntityTrackerEntryMixin",
+    "entity.EntityTrackerMixin",
+    "entity.ItemEntityMixin",
+    "entity.LivingEntityMixin",
+    "entity.player.PlayerEntityMixin",
+    "quality.BlockMixin",
+    "quality.LeavesBlockMixin",
+    "quality.LivingEntityMixin",
+    "quality.MeshBlockMixin",
+    "quality.WorldMixin"
+  ],
+  "client": [
+    "client.EntityPlayerSPMixin",
+    "client.PlayerControllerMixin",
+    "client.debug.RenderGlobalBBMixin",
+    "client.render.EntityRendererMixin",
+    "client.render.ItemEntityRendererMixin",
+    "client.render.RenderArrowMixin",
+    "client.render.RenderCannonballMixin",
+    "client.render.RenderLivingMixin",
+    "client.render.RenderManagerMixin",
+    "client.render.ThirdPersonCameraMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
   }
 }

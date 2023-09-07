@@ -1,14 +1,8 @@
 package tfc.better_than_scaling.ducks;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.HitResult;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityLiving;
-import net.minecraft.core.util.phys.Vec3d;
-import net.minecraft.core.world.World;
 import org.lwjgl.opengl.GL11;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import tfc.better_than_scaling.api.ScaleType;
 import tfc.better_than_scaling.api.ScaleTypes;
 
 public class TestCode {
@@ -47,7 +41,7 @@ public class TestCode {
 
         float escl = (float) ScaleTypes.EYES.calculate(instance);
 
-        instance.y = y - instance.heightOffset + instance.heightOffset * escl;
+        instance.y = y - instance.heightOffset + instance.heightOffset * scaleY;
 
         float center = (instance.bbWidth / 2.0F) * scaleX;
         float heightOfMob = instance.bbHeight;
@@ -55,10 +49,10 @@ public class TestCode {
         instance.bb
                 .setBounds(
                         x - (double) center,
-                        y - (double) (instance.heightOffset * escl) + (double) (instance.bbHeight * scaleY),
+                        y - (double) (instance.getHeadHeight() * escl) + (double) (instance.bbHeight * scaleY),
                         z - (double) center,
                         x + (double) center,
-                        y - (double) (instance.heightOffset * escl) + (double) (instance.bbHeight * scaleY) + (double) heightOfMob * scaleY,
+                        y - (double) (instance.getHeadHeight() * escl) + (double) (instance.bbHeight * scaleY) + (double) heightOfMob * scaleY,
                         z + (double) center
                 );
     }

@@ -6,13 +6,12 @@ import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import tfc.better_than_scaling.ducks.BlockExtensions;
 import tfc.better_than_scaling.ducks.EntityExtensions;
 
 @Mixin(value = EntityLiving.class, remap = false)
-public class EntityMixin {
+public class LivingEntityMixin {
     // I don't like this being a redirect
     @Redirect(method = "canClimb", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/Block;isClimbable(Lnet/minecraft/core/world/World;III)Z"))
     public boolean preCheck(Block instance, World world, int x, int y, int z) {

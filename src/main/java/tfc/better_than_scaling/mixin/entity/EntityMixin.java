@@ -3,12 +3,8 @@ package tfc.better_than_scaling.mixin.entity;
 import com.mojang.nbt.CompoundTag;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityTrackerEntry;
-import net.minecraft.core.item.ItemHandCannonLoaded;
 import net.minecraft.core.util.phys.AABB;
-import net.minecraft.core.world.World;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -38,6 +34,11 @@ public abstract class EntityMixin implements EntityExtensions {
     public ScaleData getScaleData() {
         return scaleData;
     }
+
+//    @Inject(at = @At("TAIL"), method = "<init>")
+//    public void postInit(World world, CallbackInfo ci) {
+//        scaleData.setScale(ScaleTypes.BASE, Math.random() * 1.5 + 0.5);
+//    }
 
     // hitbox scaling
     @Inject(at = @At("TAIL"), method = "setPos")
@@ -137,5 +138,10 @@ public abstract class EntityMixin implements EntityExtensions {
         // TODO: make this respond to player height instead of cancelling it entirely
         if (ScaleTypes.HEIGHT.calculate((Entity) (Object) this) < 0.85)
             cir.setReturnValue(false);
+    }
+
+    @ModifyConstant(method = "isInWall", constant = @Constant(floatValue = 0.1f))
+    public float redir01f(float constant) {
+        return constant * (float) ScaleTypes.EYES.calculate((Entity) (Object) this);
     }
 }
