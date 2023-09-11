@@ -13,7 +13,8 @@ import tfc.better_than_scaling.ducks.EntityExtensions;
 
 @Mixin(value = EntityPlayer.class, remap = false)
 public abstract class PlayerEntityMixin {
-    @Shadow public abstract float getHeadHeight();
+    @Shadow
+    public abstract float getHeadHeight();
 
     @Inject(at = @At("RETURN"), method = "getHeadHeight", cancellable = true)
     public void postGetEyeHeight(CallbackInfoReturnable<Float> cir) {
@@ -48,5 +49,10 @@ public abstract class PlayerEntityMixin {
     @Redirect(method = "dropPlayerItemWithRandomChoice", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/entity/player/EntityPlayer;getHeadHeight()F"))
     public float modifyDropHeight(EntityPlayer instance) {
         return 0.12f;
+    }
+
+    @ModifyConstant(method = "wakeUpPlayer", constant = @Constant(floatValue = 0.1f))
+    public float preHeightOSet(float constant) {
+        return (float) (constant * ScaleTypes.HEIGHT.calculate((Entity) (Object) this));
     }
 }

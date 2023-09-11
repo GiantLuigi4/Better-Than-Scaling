@@ -17,6 +17,8 @@
     "quality.LeavesBlockMixin",
     "quality.LivingEntityMixin",
     "quality.MeshBlockMixin",
+    "quality.PortalHandlerMixin",
+    "quality.PortalMixin",
     "quality.WorldMixin"
   ],
   "client": [

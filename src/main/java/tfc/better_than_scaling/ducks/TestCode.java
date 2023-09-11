@@ -42,19 +42,31 @@ public class TestCode {
         float escl = (float) ScaleTypes.EYES.calculate(instance);
 
         instance.y = y - instance.heightOffset + instance.heightOffset * scaleY;
+        y = instance.y;
 
         float center = (instance.bbWidth / 2.0F) * scaleX;
         float heightOfMob = instance.bbHeight;
 
-        instance.bb
-                .setBounds(
-                        x - (double) center,
-                        y - (double) (instance.getHeadHeight() * escl) + (double) (instance.bbHeight * scaleY),
-                        z - (double) center,
-                        x + (double) center,
-                        y - (double) (instance.getHeadHeight() * escl) + (double) (instance.bbHeight * scaleY) + (double) heightOfMob * scaleY,
-                        z + (double) center
-                );
+//        y -= instance.heightOffset;
+
+        instance.bb.setBounds(
+                x - (double) center,
+                y - (double) instance.heightOffset * scaleY + (double) instance.ySlideOffset * scaleY,
+                z - (double) center,
+                x + (double) center,
+                y - (double) instance.heightOffset * scaleY + (double) instance.ySlideOffset * scaleY + (double) heightOfMob,
+                z + (double) center
+        );
+
+//        instance.bb
+//                .setBounds(
+//                        x - (double) center,
+//                        y - (double) (instance.getHeadHeight() * escl) + (double) (instance.bbHeight * scaleY),
+//                        z - (double) center,
+//                        x + (double) center,
+//                        y - (double) (instance.getHeadHeight() * escl) + (double) (instance.bbHeight * scaleY) + (double) heightOfMob * scaleY,
+//                        z + (double) center
+//                );
     }
 
     public static float scaleCamera(Entity instance) {

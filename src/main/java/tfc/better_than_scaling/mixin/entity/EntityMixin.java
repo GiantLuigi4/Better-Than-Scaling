@@ -1,10 +1,13 @@
 package tfc.better_than_scaling.mixin.entity;
 
 import com.mojang.nbt.CompoundTag;
+import com.mojang.nbt.DoubleTag;
+import com.mojang.nbt.ListTag;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityTrackerEntry;
 import net.minecraft.core.util.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -16,6 +19,35 @@ import tfc.better_than_scaling.ducks.TestCode;
 
 @Mixin(value = Entity.class, remap = false)
 public abstract class EntityMixin implements EntityExtensions {
+    @Shadow
+    protected abstract ListTag newDoubleList(double[] array);
+
+    @Shadow
+    public double xo;
+    @Shadow
+    public double yo;
+    @Shadow
+    public double zo;
+    @Shadow
+    public double zOld;
+    @Shadow
+    public double yOld;
+    @Shadow
+    public double xOld;
+    @Shadow
+    public double x;
+    @Shadow
+    public double y;
+    @Shadow
+    public double z;
+
+    @Shadow
+    public abstract void setPos(double x, double y, double z);
+
+    @Shadow
+    public float heightOffset;
+    @Shadow
+    public float ySlideOffset;
     ScaleData scaleData = new ScaleData();
 
     EntityTrackerEntry entityTrackerEntry;
@@ -85,7 +117,7 @@ public abstract class EntityMixin implements EntityExtensions {
     }
     //@formatter:on
 
-    @Inject(at = @At("HEAD"), method = "saveWithoutId")
+    @Inject(at = @At("TAIL"), method = "saveWithoutId")
     public void preWrite(CompoundTag nbttagcompound, CallbackInfo ci) {
         CompoundTag compound = new CompoundTag();
         scaleData.scales.forEach((entry, value) -> {
@@ -94,7 +126,7 @@ public abstract class EntityMixin implements EntityExtensions {
         nbttagcompound.putCompound("better_than_scaling", compound);
     }
 
-    @Inject(at = @At("HEAD"), method = "load")
+    @Inject(at = @At("TAIL"), method = "load")
     public void preRead(CompoundTag nbttagcompound, CallbackInfo ci) {
         CompoundTag compound = nbttagcompound.getCompound("better_than_scaling");
         for (ScaleType scaleType : ScaleTypes.getScaleTypes()) {
@@ -102,6 +134,14 @@ public abstract class EntityMixin implements EntityExtensions {
                 scaleData.setScale(scaleType, compound.getDouble(scaleType.name));
             }
         }
+
+        ListTag posTag = nbttagcompound.getList("Pos");
+        this.xo = this.xOld = this.x = ((DoubleTag) posTag.tagAt(0)).getValue();
+        this.yo = this.yOld = this.y = ((DoubleTag) posTag.tagAt(1)).getValue();
+        this.zo = this.zOld = this.z = ((DoubleTag) posTag.tagAt(2)).getValue();
+
+        // correct login position
+        this.setPos(this.x, this.y + heightOffset - ySlideOffset + ySlideOffset * ScaleTypes.HEIGHT.calculate((Entity) (Object) this), this.z);
     }
 
     @Redirect(method = "move", at = @At(value = "FIELD", target = "Lnet/minecraft/core/entity/Entity;heightOffset:F"))
