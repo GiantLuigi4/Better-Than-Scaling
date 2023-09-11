@@ -2,6 +2,7 @@ package tfc.better_than_scaling.ducks;
 
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityLiving;
+import net.minecraft.core.util.phys.AABB;
 import org.lwjgl.opengl.GL11;
 import tfc.better_than_scaling.api.ScaleTypes;
 
@@ -41,32 +42,21 @@ public class TestCode {
 
         float escl = (float) ScaleTypes.EYES.calculate(instance);
 
-        instance.y = y - instance.heightOffset + instance.heightOffset * scaleY;
+        instance.y = y - instance.heightOffset + instance.heightOffset * escl;
         y = instance.y;
 
-        float center = (instance.bbWidth / 2.0F) * scaleX;
+        float center = instance.bbWidth / 2.0f;
         float heightOfMob = instance.bbHeight;
+        instance.bb.setBounds(x - (double)center, y - (double)instance.heightOffset + (double)instance.ySlideOffset, z - (double)center, x + (double)center, y - (double)instance.heightOffset + (double)instance.ySlideOffset + (double)heightOfMob, z + (double)center);
 
-//        y -= instance.heightOffset;
-
-        instance.bb.setBounds(
-                x - (double) center,
-                y - (double) instance.heightOffset * scaleY + (double) instance.ySlideOffset * scaleY,
-                z - (double) center,
-                x + (double) center,
-                y - (double) instance.heightOffset * scaleY + (double) instance.ySlideOffset * scaleY + (double) heightOfMob,
-                z + (double) center
-        );
-
-//        instance.bb
-//                .setBounds(
-//                        x - (double) center,
-//                        y - (double) (instance.getHeadHeight() * escl) + (double) (instance.bbHeight * scaleY),
-//                        z - (double) center,
-//                        x + (double) center,
-//                        y - (double) (instance.getHeadHeight() * escl) + (double) (instance.bbHeight * scaleY) + (double) heightOfMob * scaleY,
-//                        z + (double) center
-//                );
+        instance.bb.setBB(new AABB(
+                (instance.bb.minX - instance.x) * scaleX + instance.x,
+                (instance.bb.minY - instance.y) * scaleY + instance.y,
+                (instance.bb.minZ - instance.z) * scaleX + instance.z,
+                (instance.bb.maxX - instance.x) * scaleX + instance.x,
+                (instance.bb.maxY - instance.y) * scaleY + instance.y,
+                (instance.bb.maxZ - instance.z) * scaleX + instance.z
+        ));
     }
 
     public static float scaleCamera(Entity instance) {

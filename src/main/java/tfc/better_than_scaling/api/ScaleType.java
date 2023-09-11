@@ -51,7 +51,7 @@ public class ScaleType {
         double feetY = entity.bb.minY;
 
         // account for imprecision
-        entity.move(0, (oldFeetY - feetY) / ScaleTypes.MOTION.calculate(entity), 0);
+        entity.setPos(entity.x, entity.y + (oldFeetY - feetY) + (entity.heightOffset) - entity.heightOffset * height, entity.z);
 
         // sync to clients
         EntityTrackerEntry tracker = ((EntityExtensions) entity).getTracker();
